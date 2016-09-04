@@ -23,7 +23,7 @@
 function getMorse(message) {
   message = message.toUpperCase();
   morse = [];
-  for (var i = message.length - 1; i >= 0; i--) {
+  for (var i = 0; i < message.length; i++) {
     morse.push( char_to_morse[message[i]] );
   }
   return morse;
