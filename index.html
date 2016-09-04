@@ -81,23 +81,23 @@ function play_morse_sequence() {
           dit.play();
           run_idx++;
           t = dot_time;
-          document.querySelector('#morse').textContent += '• ';
+          document.querySelector('#morse').innerHTML += '• ';
         } else if (code[m_idx][c_idx] == '-') {
           dah.play();
           run_idx++;
           t = dash_time;
-          document.querySelector('#morse').textContent += '— ';
+          document.querySelector('#morse').innerHTML += '— ';
         } else {
           // space
           t = space_time;
-          document.querySelector('#morse').textContent += '    ';
+          document.querySelector('#morse').innerHTML += '<br />';
         }
         c_idx++;
       } else {
-        document.querySelector('#morse').textContent += '  ';
+        document.querySelector('#morse').innerHTML += '  ';
         m_idx++;
         c_idx = 0;
-        document.querySelector('#msg').textContent = msg.substr(0,m_idx).toUpperCase();
+        document.querySelector('#msg').innerHTML = msg.substr(0,m_idx).toUpperCase();
       }
       // Update progress bar
       updateProgress(run_idx);
