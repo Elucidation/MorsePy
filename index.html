@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Morse Code Sound Generator</title>
+
+<!-- Material Design Lite https://getmdl.io -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.2.0/material.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Contains dictionary of characters to morse code -->
+<script src="morse_code_dict.js"></script>
+<!-- Contains audio files for morse code dit and dah sounds -->
+<script src="morse_code_sounds.js"></script>
+
+<script>
+
+// Given string, returns list of chars converted to morse code
+// ex.
+// getMorse('Test') -> ["-", "...", ".", "-"]
+function getMorse(message) {
+  message = message.toUpperCase();
+  morse = [];
+  for (var i = message.length - 1; i >= 0; i--) {
+    morse.push( char_to_morse[message[i]] );
+  }
+  return morse;
+}
+
+var dot_time = 100;
+var dash_time = dot_time*3;
+var inter_elem_time = dot_time;
+var space_time = dot_time*7;
+
+
+var running = false;
+
+var stop_morse = function() {
+  running = false;
+  document.querySelector('#msg').textContent = "";
+  document.querySelector('#morse').textContent = "";
+  document.querySelector('#p1').MaterialProgress.setProgress(0);
+
+}
+
+function play_morse_sequence() {
+  if (running) {
+    return;
+  }
+
+  // clear previous
+  stop_morse();
+
+  running = true;
+
+  var msg = document.querySelector('#input_msg').value;
+  document.querySelector('#input_msg').value = msg.toUpperCase();
+  var code = getMorse(msg);
+  console.log(msg);
+  console.log(code);
+
+
+  var total_length = morse.join('').length-1;
+
+  var updateProgress = function(pos) {
+    var ratio = 100 * pos / total_length;
+    document.querySelector('#p1').MaterialProgress.setProgress(ratio);
+  }
+
+
+  var step = function(m_idx, c_idx, run_idx) {
+    if (!running) {return;};
+
+    if (m_idx < code.length) {
+      var t = 0;
+      if (c_idx < code[m_idx].length) {
+        // On character in morse code
+        if (code[m_idx][c_idx] == '.') {
+          dit.play();
+          run_idx++;
+          t = dot_time;
+          document.querySelector('#morse').textContent += '• ';
+        } else if (code[m_idx][c_idx] == '-') {
+          dah.play();
+          run_idx++;
+          t = dash_time;
+          document.querySelector('#morse').textContent += '— ';
+        } else {
+          // space
+          t = space_time;
+          document.querySelector('#morse').textContent += '    ';
+        }
+        c_idx++;
+      } else {
+        document.querySelector('#morse').textContent += '  ';
+        m_idx++;
+        c_idx = 0;
+        document.querySelector('#msg').textContent = msg.substr(0,m_idx).toUpperCase();
+      }
+      // Update progress bar
+      updateProgress(run_idx);
+      
+
+      // Recursively call self
+      if (running) { 
+        setTimeout(function() {
+          step(m_idx, c_idx, run_idx);
+        }, t+inter_elem_time);
+      }
+    }
+  }
+
+  // Start sequence
+  step(0,0,0);
+}
+
+</script>
+
+</head>
+
+<body>
+<div align="center">
+  <h1>Morse Code</h1>
+  <div>
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick="dit.play()">
+    <i id="dot" class="material-icons">fiber_manual_record</i>
+    <div class="mdl-tooltip" data-mdl-for="dot">Dot sound</div>
+    </button>
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"  onclick="dah.play()">
+    <i id="dash" class="material-icons">remove</i>
+    <div class="mdl-tooltip" data-mdl-for="dash">Dash sound</div>
+    </button>
+  </div>
+  <br>
+  <div>
+      <!-- Simple Textfield -->
+    <form action="#">
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="input_msg" value="Hello World">
+        <label class="mdl-textfield__label" for="input_msg">Write message here...</label>
+      </div>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  onclick="play_morse_sequence();">
+      Play Morse Sequence
+      </button>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  onclick="stop_morse();">
+      Stop
+      </button>
+    </form>
+  </div>
+  <br>
+  <div>
+    <!-- Simple MDL Progress Bar -->
+    <div id="p1" class="mdl-progress mdl-js-progress"></div>
+  </div>
+  <br>
+  <p id="msg"></p>
+  <pre id="morse"></pre>
+
+  <br>
+  <!-- To github -->
+  
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick="parent.location='https://github.com/Elucidation/MorsePy'">
+    <i id="git_link" class="material-icons">code</i>
+    <div class="mdl-tooltip" data-mdl-for="git_link">Go to GitHub Repository</div>
+  </button>
+
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick="parent.location='..'">
+    <i id="home_link" class="material-icons">arrow_upward</i>
+    <div class="mdl-tooltip" data-mdl-for="home_link">Go to Home Page</div>
+  </button>
+</div>
+
+</body>
+</html>
