@@ -67,13 +67,13 @@ char_delimit = " "
 word_delimit = "  "
 # Between chars is 2 spaces
 def charToMorse(c):
-    if char_to_morse.has_key(c):
+    if c in char_to_morse:
         return char_to_morse[c]
     elif c == ' ':
         return char_delimit
     else:
         if DEBUG_LEVEL >= 3:
-            print "Unknown symbol '%c', skipping..." % c 
+            print("Unknown symbol '%c', skipping..." % c )
         return ""
 
 # Between words is 3 spaces
@@ -84,11 +84,11 @@ def writeMorse(msg):
     return word_delimit.join(out)
 
 def morseToChar(m):
-    if morse_to_char.has_key(m):
+    if m in morse_to_char:
         return morse_to_char[m]
     else:
         if DEBUG_LEVEL >= 3:
-            print "Unknown sequence '%s', skipping..." % m
+            print("Unknown sequence '%s', skipping..." % m)
         return ""
 
 def readMorse(morse):
@@ -99,22 +99,22 @@ def readMorse(morse):
 
 
 def doTest(test_message):
-    print "--------------------------------------------------------------"
-    print "Original: %s" % test_message.upper()
+    print("--------------------------------------------------------------")
+    print("Original: %s" % test_message.upper())
     a = writeMorse(test_message)
-    print "   Morse: %s" % a
+    print("   Morse: %s" % a)
     b = readMorse(a)
-    print "and Back: %s" % readMorse(a)
-    print "Valid? %s" % ("Yes" if test_message.upper() == b else "No")
-    print "--------------------------------------------------------------"
+    print("and Back: %s" % readMorse(a))
+    print("Valid? %s" % ("Yes" if test_message.upper() == b else "No"))
+    print("--------------------------------------------------------------")
 
 test1 = "This is number 1 test."
 test2 = "What is the meaning of life, the universe, and everything?"
 test3 = "Wierd chars # is !@#$%^&*()<> bloop "
-with open("quotes.txt",'r') as f:
-    test4 = f.read()
+# with open("quotes.txt",'r') as f:
+#     test4 = f.read()
 
 doTest(test1)
 doTest(test2)
 doTest(test3)
-doTest(test4)
+# doTest(test4)
