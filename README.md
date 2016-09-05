@@ -2,6 +2,8 @@
 
 [![MorsePy Demo](morsepy.gif "MorsePy Demo")](http://elucidation.github.io/MorsePy/)
 
+Look at the [HTML5/Javascript code branch for this demo here](../../tree/gh-pages)
+
 `morse.py` contains a simple set of python functions to translate alphanumeric characters to morse code and back
 
 `morse_sound.py` generates base 64 encoded strings of the dit and dah sounds for use in the HTML5 page.
