@@ -1,6 +1,6 @@
 # MorsePy
 
-![MorsePy Demo](morsepy.gif "MorsePy Demo")
+[![MorsePy Demo](morsepy.gif "MorsePy Demo")][http://elucidation.github.io/MorsePy/]
 
 `morse.py` contains a simple set of python functions to translate alphanumeric characters to morse code and back
 
