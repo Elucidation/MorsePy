@@ -210,7 +210,7 @@ function play_morse_sequence() {
   <div>
       <!-- Simple Textfield -->
     <div class="mdl-textfield mdl-js-textfield">
-      <input class="mdl-textfield__input" type="text" id="input_msg" value="Hello World" onblur="stop_morse()">
+      <input class="mdl-textfield__input" type="text" id="input_msg" value="Hello World" onblur="stop_morse()" autocomplete="off" >
       <label class="mdl-textfield__label" for="input_msg">Write message here...</label>
     </div>
     <button id="play" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  onclick="play_morse_sequence();">
