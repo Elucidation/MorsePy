@@ -140,6 +140,10 @@ function play_morse_sequence() {
       t += space_time;
     } else {
       // We have a morse code word
+      if (typeof word == 'undefined') {
+        console.log("Skip", msg[i]);
+        continue;
+      }
       for (var j=0; j < word.length; j++) {
         var char = word[j]; // morse code character
         if (char === '.') {
